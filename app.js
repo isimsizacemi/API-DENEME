@@ -40,7 +40,7 @@ app.post('/', (req, res) => {
   }
 
 });
-
+console.log("deneme");
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
