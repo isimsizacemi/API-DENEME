@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 const dataArr = []; // Dizi oluşturuldu
 
-app.post('/', (req, res) => {
+app.post('/kayit', (req, res) => {
   var msj = req.body.msj;
   var date = req.body.date;
   var telefon = req.body.number;
@@ -40,7 +40,7 @@ app.post('/', (req, res) => {
   }
 
 });
-console.log("deneme");
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
