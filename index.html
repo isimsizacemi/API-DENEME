@@ -28,17 +28,58 @@
         </div>
         
         <button type="submit" class="btn btn-primary">Submit</button>
+        
     </form>
    
     <div class="results">
+        <hr>
         <h2>Form Data</h2>
-        <p id = "demo"></p>
+        <hr>
     </div>
 
-    
+    <div id="json-container">
 
-    
+    </div>
+
+    <script>
+        const jsonContainer = document.getElementById('json-container');
+
+        // JSON dosyasının URL'sini belirtin
+        const jsonURL = './veriler.json';
+
+        // JSON dosyasını fetch ile okuyun
+        fetch(jsonURL)
+            .then(response => response.json())
+            .then(veri => {
+                let htmlString = '';
+
+                veri.forEach(element => {
+                    const mesaj = element.mesaj;
+                    const date = element.date;
+                    const telefon = element.telefon;
+
+                    // Her bir öğe için HTML dizesi oluşturun.
+                    const elementHtml = `
+                        <p><strong>Mesaj:</strong> ${mesaj}</p>
+                        <p><strong>Date:</strong> ${date}</p>
+                        <p><strong>Send Phone:</strong> ${telefon}</p>
+                        <hr>
+                    `;
+
+                    // HTML dizesini ana dizeye ekleyin.
+                    htmlString += elementHtml;
+                });
+
+                // JSON verilerini HTML içine ekleyin.
+                jsonContainer.innerHTML = htmlString;
+            })
+            .catch(error => console.error('JSON dosyası yüklenemedi:', error));
+    </script>
     
 
 </body>
 </html>
+
+
+
+

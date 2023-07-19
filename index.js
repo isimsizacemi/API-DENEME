@@ -29,11 +29,14 @@ fs.readFile('C:\\Users\\abdur\\Desktop\\API-DENEME\\veriler.json', 'utf8', (err,
 
   const veri = JSON.parse(data);
 
+  
   veri.forEach((element) => {
     const mesaj = element.mesaj;
     const date = element.date;
     const sendtime = new Date(date);
-
+    if (time > sendtime) {
+      
+    } 
     const timeDifference = sendtime.getTime() - time.getTime();
     const delay = timeDifference + 1000;
 
@@ -44,7 +47,7 @@ fs.readFile('C:\\Users\\abdur\\Desktop\\API-DENEME\\veriler.json', 'utf8', (err,
   
         console.log(delay + ' dk');
   
-        if (delay > 0 && delay !== 1000) {
+        if (delay > 0 && delay != 1000) {
           setTimeout(() => {
             chat.sendMessage(mesaj, {
               mentions: [contact],

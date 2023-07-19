@@ -35,10 +35,8 @@ app.post('/kayit', (req, res) => {
   });
 
   console.log(JSON.stringify(data));
-  function goBackToHTML() {
-    window.location.href = 'index.html'; // Geri dönülecek HTML dosyasının yolunu belirtin
-  }
-
+ 
+ 
 });
 
 app.listen(port, () => {
