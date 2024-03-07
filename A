@@ -1,24 +1,40 @@
-{
-  "manifest_version": 2,
-  "name": "JSON Error Logger",
-  "version": "1.0",
-  "description": "Web sitelerindeki JSON hatalarını yakalayıp bir popup'ta gösteren Edge eklentisi.",
-  "permissions": ["activeTab", "storage"],
-  "background": {
-    "scripts": ["background.js"],
-    "persistent": false
-  },
-  "browser_action": {
-    "default_popup": "popup.html",
-    "default_icon": "icon-48.png"
-  },
-  "icons": {
-    "48": "icon-48.png"
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"]
-    }
-  ]
+
+
+
+// Hataları toplamak ve JSON dosyasına yazdırmak için bir fonksiyon
+function saveErrorsToJson() {
+    // Hataları toplamak için bir dizi oluştur
+    const errors = [];
+
+    // Web sitesindeki hataları yakalamak için bir hata dinleyici ekleyin
+    window.onerror = function(message, source, lineno, colno, error) {
+        // Hata bilgilerini bir nesne olarak oluşturun
+        const errorInfo = {
+            message: message,
+            source: source,
+            lineNumber: lineno,
+            columnNumber: colno,
+            error: error ? error.stack : null
+        };
+
+        // Hata nesnesini errors dizisine ekleyin
+        errors.push(errorInfo);
+
+        // Hata mesajını console'a da yazdırabilirsiniz
+        console.error('Hata:', errorInfo);
+    };
+
+    // JSON dosyasına hataları yazdır
+    const jsonContent = JSON.stringify(errors, null, 2);
+    const blob = new Blob([jsonContent], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'errors.json';
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(a.href);
+    document.body.removeChild(a);
 }
+
+// Hata toplama işlemini başlat
+saveErrorsToJson();
