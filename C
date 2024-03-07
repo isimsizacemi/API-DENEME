@@ -1,0 +1,26 @@
+// Belirli bir URL'den JSON dosyasını indirme
+function downloadJSON(url) {
+  return fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(jsonData => {
+      return jsonData; // JSON verilerini döndür
+    })
+    .catch(error => {
+      console.error('There was a problem with your fetch operation:', error);
+    });
+}
+
+// Örnek olarak bir URL belirleyin
+var jsonURL = 'URL_GÖNDER';
+
+// JSON dosyasını indir ve içeriğini al
+downloadJSON(jsonURL)
+  .then(data => {
+    console.log(data); // JSON verilerini konsola yaz
+    // Burada JSON verilerini kullanabilir veya işleyebilirsiniz
+  });
