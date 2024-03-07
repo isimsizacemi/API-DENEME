@@ -1,0 +1,33 @@
+// Yerel depodan JSON hatalarını al ve popup'ta göster
+chrome.storage.local.get('json_errors', function(data) {
+  let errors = data.json_errors || [];
+  let errorsElement = document.getElementById('errors');
+  errorsElement.innerHTML = "<ul>";
+  errors.forEach(function(error) {
+    errorsElement.innerHTML += "<li>" + error + "</li>";
+  });
+  errorsElement.innerHTML += "</ul>";
+});
+
+// JSON hatalarını indirmek için bir işlev
+function downloadErrors() {
+  chrome.storage.local.get('json_errors', function(data) {
+    let errors = data.json_errors || [];
+    let errorsText = errors.join('\n'); // Hataları bir satırda birleştir
+    let blob = new Blob([errorsText], { type: 'text/plain' });
+    let url = window.URL.createObjectURL(blob);
+    
+    // İndirme bağlantısını oluştur
+    let downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.download = 'json_errors.txt';
+    document.body.appendChild(downloadLink);
+    
+    // Bağlantıyı tıklama
+    downloadLink.click();
+    
+    // Kullanılmayan URL'yi temizle
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(downloadLink);
+  });
+}
