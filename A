@@ -1,33 +1,18 @@
-// Yerel depodan JSON hatalarını al ve popup'ta göster
-chrome.storage.local.get('json_errors', function(data) {
-  let errors = data.json_errors || [];
-  let errorsElement = document.getElementById('errors');
-  errorsElement.innerHTML = "<ul>";
-  errors.forEach(function(error) {
-    errorsElement.innerHTML += "<li>" + error + "</li>";
-  });
-  errorsElement.innerHTML += "</ul>";
+// İçerik betiğinden gelen mesajları dinle
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+  if (message && message.type === "logError" && message.error) {
+    logError(message.error);
+  }
 });
 
-// JSON hatalarını indirmek için bir işlev
-function downloadErrors() {
+// Hataları bir metin dosyasına kaydeden fonksiyon
+function logError(errorText) {
+  // Hataları Edge Extension Storage API kullanarak kaydet
   chrome.storage.local.get('json_errors', function(data) {
     let errors = data.json_errors || [];
-    let errorsText = errors.join('\n'); // Hataları bir satırda birleştir
-    let blob = new Blob([errorsText], { type: 'text/plain' });
-    let url = window.URL.createObjectURL(blob);
-    
-    // İndirme bağlantısını oluştur
-    let downloadLink = document.createElement('a');
-    downloadLink.href = url;
-    downloadLink.download = 'json_errors.txt';
-    document.body.appendChild(downloadLink);
-    
-    // Bağlantıyı tıklama
-    downloadLink.click();
-    
-    // Kullanılmayan URL'yi temizle
-    window.URL.revokeObjectURL(url);
-    document.body.removeChild(downloadLink);
+    errors.push(errorText);
+    chrome.storage.local.set({ 'json_errors': errors }, function() {
+      console.log("Hata başarıyla kaydedildi: " + errorText);
+    });
   });
 }
