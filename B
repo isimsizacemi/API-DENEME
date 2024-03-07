@@ -1,0 +1,35 @@
+// Edge eklentisi olarak kullanılacak JavaScript dosyası
+
+// JSON verisini bir dosyaya yazma fonksiyonu
+function saveJsonToFile(jsonData) {
+    // JSON içeriğini bir metin dosyasına dönüştür
+    const jsonContent = JSON.stringify(jsonData, null, 2);
+
+    // Dosyayı indirmek için bir Blob oluştur
+    const blob = new Blob([jsonContent], { type: 'application/json' });
+
+    // Dosyayı indirmek için bir bağlantı oluştur
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'data.json';
+
+    // Dosyayı indirmek için kullanıcıya bir indirme bağlantısı sun
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(a.href);
+    document.body.removeChild(a);
+}
+
+// Edge eklentisi olarak kullanılacak fonksiyon
+function mainFunction() {
+    // Edge eklentisi olarak kullanılacak kod buraya yazılabilir
+
+    // Örnek JSON verisini almak için bir örnek
+    const jsonDataFromWebsite = { "name": "John", "age": 30, "city": "New York" };
+
+    // JSON verisini dosyaya yazdırma işlemini başlat
+    saveJsonToFile(jsonDataFromWebsite);
+}
+
+// Edge eklentisi olarak çalışacak ana fonksiyonu çağırma
+mainFunction();
