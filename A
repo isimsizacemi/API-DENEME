@@ -1,18 +1,48 @@
-// İçerik betiğinden gelen mesajları dinle
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-  if (message && message.type === "logError" && message.error) {
-    logError(message.error);
-  }
-});
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Hataları</title>
+  <style>
+    /* Stillemeleri burada tanımlayabilirsiniz */
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 5px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      background-color: #f9f9f9;
+    }
+    .download-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .download-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>JSON Hataları</h1>
+  <div id="errors"></div>
+  <button class="download-btn" onclick="downloadErrors()">Hataları İndir</button>
 
-// Hataları bir metin dosyasına kaydeden fonksiyon
-function logError(errorText) {
-  // Hataları Edge Extension Storage API kullanarak kaydet
-  chrome.storage.local.get('json_errors', function(data) {
-    let errors = data.json_errors || [];
-    errors.push(errorText);
-    chrome.storage.local.set({ 'json_errors': errors }, function() {
-      console.log("Hata başarıyla kaydedildi: " + errorText);
-    });
-  });
-}
+  <script src="popup.js"></script>
+</body>
+</html>
