@@ -1,35 +1,47 @@
-// Edge eklentisi olarak kullanılacak JavaScript dosyası
+/*
+ * CommonTypes.h
+ *
+ * This header file contains common types and enumerations used throughout the project.
+ * It is intended to provide standardized data types that can be shared across multiple
+ * source files for consistency and ease of maintenance.
+ *
+ * Enumerations:
+ * 1. InvalidValidStatus: Represents the validity status with INVALID and VALID values.
+ * 2. FalseTrueStatus: Represents boolean status with FALSE and TRUE values.
+ */
 
-// JSON verisini bir dosyaya yazma fonksiyonu
-function saveJsonToFile(jsonData) {
-    // JSON içeriğini bir metin dosyasına dönüştür
-    const jsonContent = JSON.stringify(jsonData, null, 2);
+#ifndef COMMON_TYPES_H
+#define COMMON_TYPES_H
 
-    // Dosyayı indirmek için bir Blob oluştur
-    const blob = new Blob([jsonContent], { type: 'application/json' });
+/**
+ * @enum InvalidValidStatus
+ * @brief Enumeration for validity status.
+ *
+ * This enumeration is used to represent the status of an operation or data
+ * as either invalid or valid.
+ *
+ * Values:
+ * - STATUS_INVALID: Represents an invalid status (value = 0).
+ * - STATUS_VALID: Represents a valid status (value = 1).
+ */
+typedef enum {
+    STATUS_INVALID = 0, ///< Invalid status.
+    STATUS_VALID = 1    ///< Valid status.
+} InvalidValidStatus;
 
-    // Dosyayı indirmek için bir bağlantı oluştur
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'data.json';
+/**
+ * @enum FalseTrueStatus
+ * @brief Enumeration for boolean status.
+ *
+ * This enumeration is used to represent a boolean status with true or false values.
+ *
+ * Values:
+ * - STATUS_FALSE: Represents a false status (value = 0).
+ * - STATUS_TRUE: Represents a true status (value = 1).
+ */
+typedef enum {
+    STATUS_FALSE = 0, ///< False status.
+    STATUS_TRUE = 1   ///< True status.
+} FalseTrueStatus;
 
-    // Dosyayı indirmek için kullanıcıya bir indirme bağlantısı sun
-    document.body.appendChild(a);
-    a.click();
-    window.URL.revokeObjectURL(a.href);
-    document.body.removeChild(a);
-}
-
-// Edge eklentisi olarak kullanılacak fonksiyon
-function mainFunction() {
-    // Edge eklentisi olarak kullanılacak kod buraya yazılabilir
-
-    // Örnek JSON verisini almak için bir örnek
-    const jsonDataFromWebsite = { "name": "John", "age": 30, "city": "New York" };
-
-    // JSON verisini dosyaya yazdırma işlemini başlat
-    saveJsonToFile(jsonDataFromWebsite);
-}
-
-// Edge eklentisi olarak çalışacak ana fonksiyonu çağırma
-mainFunction();
+#endif // COMMON_TYPES_H
