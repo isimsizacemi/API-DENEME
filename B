@@ -1,47 +1,68 @@
-/*
- * CommonTypes.h
- *
- * This header file contains common types and enumerations used throughout the project.
- * It is intended to provide standardized data types that can be shared across multiple
- * source files for consistency and ease of maintenance.
- *
- * Enumerations:
- * 1. InvalidValidStatus: Represents the validity status with INVALID and VALID values.
- * 2. FalseTrueStatus: Represents boolean status with FALSE and TRUE values.
- */
+#pragma once
 
-#ifndef COMMON_TYPES_H
-#define COMMON_TYPES_H
+#include "quick.h"
 
-/**
- * @enum InvalidValidStatus
- * @brief Enumeration for validity status.
- *
- * This enumeration is used to represent the status of an operation or data
- * as either invalid or valid.
- *
- * Values:
- * - STATUS_INVALID: Represents an invalid status (value = 0).
- * - STATUS_VALID: Represents a valid status (value = 1).
- */
-typedef enum {
-    STATUS_INVALID = 0, ///< Invalid status.
-    STATUS_VALID = 1    ///< Valid status.
-} InvalidValidStatus;
+void createQuickSort(QuickSort* q)
+{
+	q->pivot = 0;
+}
 
-/**
- * @enum FalseTrueStatus
- * @brief Enumeration for boolean status.
- *
- * This enumeration is used to represent a boolean status with true or false values.
- *
- * Values:
- * - STATUS_FALSE: Represents a false status (value = 0).
- * - STATUS_TRUE: Represents a true status (value = 1).
- */
-typedef enum {
-    STATUS_FALSE = 0, ///< False status.
-    STATUS_TRUE = 1   ///< True status.
-} FalseTrueStatus;
+void swapQuick(QuickSort* q, int num1, int num2)
+{
+	int temp = q->items[num1];
+	q->items[num1] = q->items[num2];
+	q->items[num2] = temp;
+}
 
-#endif // COMMON_TYPES_H
+void partition(QuickSort* q , int *size , int *pivot)
+{
+	int j = 0;
+	for (int i = (q->pivot ) ; i >= 0 ; i--) // pivota kadar  ADres konusdna hata var yoksa okey
+	{
+		int low = q->items[q->pivot - 1];
+
+		if (q->items[q->pivot] < q->items[j])  // pivot küçükse yyer değiştir.
+		{
+			swapQuick(q, low, q->items[i + 1]);
+			printf(" %d Swap -> %d \n\r", q->items[low], q->items[i]);
+		}
+
+
+
+		if (q->items[q->pivot] < q->items[i])  // pivot küçükse yyer değiştir.
+		{
+			swapQuick(q,q->pivot, q->items[i + 1]);
+			printf(" %d Swap -> %d \n\r", q->items[q->pivot] , q->items[i]);
+		}
+	}
+}
+
+void partition(QuickSort* q, int* size, int* pivot)
+{
+	int j = 0;
+	int low, high;
+	for (int i = (q->pivot - 1); i >= 0; i--)
+	{
+		if (q->items[q->pivot] > q->items[i])
+		{
+			low = q->items[i];
+		}
+	}
+}
+
+void quickSort(QuickSort* q , int *size, int* retStatus)
+{
+	/*size = 10;*/ //sizeof da hata alıyorum size elimle 10 yazdım
+	   // bir pivot recursive ile de pointer kullanarak sadece pivotu değişitirip yacağım.
+	
+	for (int i = 9; i >= 0; i--)
+	{
+		q->pivot = i;
+		int myPivot = q->items[q->pivot ];
+		
+		partition(q , size , myPivot);
+	}
+}
+
+
+
